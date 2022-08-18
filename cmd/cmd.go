@@ -7,6 +7,10 @@ import (
 	"github.com/gizak/termui/v3/widgets"
 )
 
+// TODO: Add logparser to update infos
+// TODO: Add more infos to be displayed
+// TODO: Add tests
+
 // Cmd is the type for the terminal interface
 type Cmd struct {
 	// URL of the server to connect to
