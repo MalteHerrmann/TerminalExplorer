@@ -3,6 +3,10 @@
 package cmd
 
 import (
+	"fmt"
+	"log"
+
+	logparser "github.com/MalteHerrmann/BlockchainExplorer/parser"
 	ui "github.com/gizak/termui/v3"
 	"github.com/gizak/termui/v3/widgets"
 )
@@ -24,14 +28,26 @@ type Cmd struct {
 
 	// Paragraph for block number
 	BlockParagraph *widgets.Paragraph
+
+	// Logparser for the blockchain information
+	lp *logparser.LogParser
 }
 
-// NewCmd returns a new Cmd
+// NewCmd creates a new Cmd and populates it with the default
+// widgets. After setting up the view, it returns the Cmd.
 func NewCmd(url string) *Cmd {
 	myCmd := &Cmd{
 		URL: url,
 	}
 
+	lp, err := logparser.NewLogParserWithURL(myCmd.URL)
+	if err != nil {
+		log.Fatalf("Error creating logparser: %v", err)
+	}
+	myCmd.lp = lp
+
+	// Create the basic grid that will hold all of the added
+	// widgets.
 	myCmd.View = ui.NewGrid()
 
 	myCmd.URLParagraph = widgets.NewParagraph()
@@ -47,4 +63,10 @@ func NewCmd(url string) *Cmd {
 	myCmd.View.SetRect(0, 0, termWidth, termHeight)
 
 	return myCmd
+}
+
+// UpdateCmd updates the displayed information with the current
+// information, that the logparser contains.
+func UpdateCmd(*Cmd) {
+	fmt.Println("Updating.")
 }

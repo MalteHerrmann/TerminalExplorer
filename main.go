@@ -21,6 +21,10 @@ func main() {
 	terminalExplorer := cmd.NewCmd(url)
 	ui.Render(terminalExplorer.View)
 
+	go func() {
+		terminalExplorer.lp.SubscribeToBlocks()
+	}()
+
 	for e := range ui.PollEvents() {
 		if e.Type == ui.KeyboardEvent {
 			break
